@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
     db:
@@ -22,7 +22,7 @@ services:
         build: nginx
         ports:
             - 80:80
-        volumes_from:
+        links:
             - php
         volumes:
             - ./logs/nginx/:/var/log/nginx
@@ -30,9 +30,9 @@ services:
         image: willdurand/elk
         ports:
             - 81:80
+        links:
+            - php
+            - nginx
         volumes:
             - ./elk/logstash:/etc/logstash
             - ./elk/logstash/patterns:/opt/logstash/patterns
-        volumes_from:
-            - php
-            - nginx
